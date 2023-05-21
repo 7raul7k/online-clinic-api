@@ -1,5 +1,6 @@
 package ro.mycode.onlineclinicapi.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -57,6 +58,7 @@ public class Doctor {
         return id+","+ fullName+","+mobile+","+email+","+adress+","+password;
     }
 
+
     @Override
     public boolean equals(Object obj){
         Doctor d = (Doctor) obj;
@@ -66,4 +68,11 @@ public class Doctor {
         }
         return false;
      }
+     @ManyToOne
+    @JoinColumn(name="clinics_id",
+    referencedColumnName = "id",
+    foreignKey = @ForeignKey(name = "clinics_id_fk"))
+    @JsonBackReference(value = "test1")
+    private Clinic clinic;
+
 }
