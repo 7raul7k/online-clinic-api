@@ -2,6 +2,7 @@ package ro.mycode.onlineclinicapi.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import ro.mycode.onlineclinicapi.models.Clinic;
 import ro.mycode.onlineclinicapi.models.Doctor;
 
@@ -9,6 +10,7 @@ import javax.print.Doc;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface DoctorRepo extends JpaRepository<Doctor,Long> {
 
     @Query("select d from Doctor d where d.fullName = ?1")
