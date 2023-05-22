@@ -1,11 +1,15 @@
 package ro.mycode.onlineclinicapi.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -49,6 +53,27 @@ public class Role {
         return false;
 
     }
+
+    @OneToMany(mappedBy = "role",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true,
+    fetch = FetchType.EAGER)
+    @JsonManagedReference(value = "test4")
+    private List<Username> usernameList = new ArrayList<>();
+
+    public void addUsername(Username username){
+        username.setRole(this);
+        this.usernameList.add(username);
+    }
+    public void removeUsername(Username username){
+        this.usernameList.remove(username);
+    }
+
+
+
+
+
+
 
 }
 
