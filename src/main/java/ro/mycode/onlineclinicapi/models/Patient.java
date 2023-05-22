@@ -1,6 +1,7 @@
 package ro.mycode.onlineclinicapi.models;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -65,5 +69,22 @@ public class Patient {
         return true;
     }
     return false;
+    }
+
+    @OneToMany(mappedBy = "patient",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true,
+    fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<Test> testList = new ArrayList<>();
+
+    public void addTest(Test test){
+        test.setPatient(this);
+        testList.add(test);
+    }
+
+    public void removeTest(Test test){
+        testList.remove(test);
+
     }
 }

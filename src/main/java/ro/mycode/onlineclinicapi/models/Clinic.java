@@ -61,4 +61,12 @@ public class Clinic {
     @Builder.Default
     private List<Doctor> doctorList = new ArrayList<>();
 
+    public void addDoctor(Doctor doctor){
+        doctor.setClinic(this);
+        doctorList.add(doctor);
+    }
+
+    public void removeDoctor(Doctor doctor){
+        this.doctorList.remove(doctor);
+    }
 }
