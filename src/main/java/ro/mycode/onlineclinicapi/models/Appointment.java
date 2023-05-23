@@ -32,6 +32,10 @@ public class Appointment {
     nullable = false,
     columnDefinition = "TEXT")
     private String number;
+    @Column(name ="type",
+    nullable = false,
+    columnDefinition = "TEXT")
+    private String type;
     @Column(name = "description",
     nullable = false,
     columnDefinition = "TEXT")
