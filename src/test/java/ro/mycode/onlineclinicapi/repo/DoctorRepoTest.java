@@ -75,10 +75,6 @@ class DoctorRepoTest {
 
         doctorRepo.save(doctor);
 
-
-
-
-
         assertEquals(doctor,this.doctorRepo.getDoctorByFullName("David Moisescu").get());
 
 

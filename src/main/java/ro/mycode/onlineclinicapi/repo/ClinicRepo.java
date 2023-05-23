@@ -19,4 +19,7 @@ public interface ClinicRepo  extends JpaRepository<Clinic,Long> {
 
     @Query("select c from Clinic c where c.place = ?1")
     List<Clinic> getClinicByPlace(String place);
+
+    @Query("select c from Clinic c")
+    List<Clinic> getAllClinic();
 }
