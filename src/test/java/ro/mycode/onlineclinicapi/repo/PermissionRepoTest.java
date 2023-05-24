@@ -9,7 +9,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import ro.mycode.onlineclinicapi.OnlineClinicApiApplication;
 import ro.mycode.onlineclinicapi.models.Permission;
-import ro.mycode.onlineclinicapi.models.Role;
 
 import java.util.ArrayList;
 import java.util.List;

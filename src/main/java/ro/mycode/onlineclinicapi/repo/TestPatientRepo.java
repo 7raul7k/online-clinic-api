@@ -3,24 +3,24 @@ package ro.mycode.onlineclinicapi.repo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ro.mycode.onlineclinicapi.models.Test;
+import ro.mycode.onlineclinicapi.models.TestPatient;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface TestRepo extends JpaRepository<Test,Long> {
-
-
-    @Query("select t from Test t where t.patient.fullName = ?1")
-    Optional<Test> getTestByPatientFullName(String patientName);
+public interface TestPatientRepo extends JpaRepository<TestPatient,Long> {
+    
 
     @Query("select t from Test t where t.name = ?1")
-    Optional<Test> getTestByName(String name);
+    Optional<TestPatient> getTestByName(String name);
 
     @Query("select t from Test t where t.report = ?1")
-    List<Test> getTestByReport(String report);
+    List<TestPatient> getTestByReport(String report);
     @Query("select t from Test t where t.type = ?1")
-    List<Test> getTestByType(String type);
+    List<TestPatient> getTestByType(String type);
+
+    @Query("select t from Test t")
+    List<TestPatient> getAllTest();
 
 }

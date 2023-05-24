@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ro.mycode.onlineclinicapi.OnlineClinicApiApplication;
 import ro.mycode.onlineclinicapi.models.Appointment;
-import ro.mycode.onlineclinicapi.models.Doctor;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

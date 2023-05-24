@@ -16,7 +16,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class Test {
+public class TestPatient {
     @Id
     @SequenceGenerator(name ="tests_sequence",
     sequenceName = "tests_sequence",
