@@ -77,15 +77,15 @@ public class Patient {
     orphanRemoval = true,
     fetch = FetchType.EAGER)
     @JsonManagedReference
-    private List<Test> testList = new ArrayList<>();
+    private List<TestPatient> testPatientList = new ArrayList<>();
 
-    public void addTest(Test test){
-        test.setPatient(this);
-        testList.add(test);
+    public void addTest(TestPatient testPatient){
+        testPatient.setPatient(this);
+        testPatientList.add(testPatient);
     }
 
-    public void removeTest(Test test){
-        testList.remove(test);
+    public void removeTest(TestPatient testPatient){
+        testPatientList.remove(testPatient);
 
     }
 }

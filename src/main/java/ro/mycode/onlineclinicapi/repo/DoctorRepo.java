@@ -15,13 +15,12 @@ public interface DoctorRepo extends JpaRepository<Doctor,Long> {
 
     @Query("select d from Doctor d where d.fullName = ?1")
     Optional<Doctor> getDoctorByFullName(String fullName);
-
-    @Query("select d from Doctor d where d.clinic.name = ?1")
-    List<Doctor> getDoctorByClinicName(String clinicName);
-
     @Query("select d from Doctor d where d.email = ?1")
     Optional<Doctor> getDoctorByEmail(String email);
 
     @Query("select d from Doctor d where d.username = ?1")
     Optional<Doctor> getDoctorByUsername(String username);
+
+    @Query("Select d from Doctor d")
+    List<Doctor> getAllDoctor();
 }

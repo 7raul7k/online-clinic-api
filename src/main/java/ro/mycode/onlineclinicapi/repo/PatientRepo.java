@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ro.mycode.onlineclinicapi.models.Patient;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -22,6 +23,9 @@ public interface PatientRepo extends JpaRepository<Patient,Long> {
 
     @Query("select p from Patient p where p.id = ?1")
     Optional<Patient> getPatientById(long id);
+
+    @Query("select p from Patient p")
+    List<Patient> getAllPatient();
 
 
 }
