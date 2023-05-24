@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface TestPatientRepo extends JpaRepository<TestPatient,Long> {
-    
+
 
     @Query("select t from Test t where t.name = ?1")
     Optional<TestPatient> getTestByName(String name);

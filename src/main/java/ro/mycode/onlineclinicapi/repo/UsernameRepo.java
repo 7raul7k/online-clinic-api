@@ -18,12 +18,8 @@ public interface UsernameRepo extends JpaRepository<Username,Long> {
     @Query("select u from usernames u where u.address = ?1")
     List<Username> getUsernameByAddress(String address);
 
-
     @Query("select u from usernames u where u.name = ?1")
     Optional<Username> getUsernameByName(String name);
-
-    @Query("select u from usernames u where u.role = ?1")
-    List<Username> getUsernameByRole(String role);
 
     @Query("select u from usernames u")
     List<Username> getAllUsernames();
