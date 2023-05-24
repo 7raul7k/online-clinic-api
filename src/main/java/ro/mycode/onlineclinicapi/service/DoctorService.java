@@ -1,7 +1,9 @@
 package ro.mycode.onlineclinicapi.service;
 
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ro.mycode.onlineclinicapi.exceptions.DoctorNotFoundException;
 import ro.mycode.onlineclinicapi.exceptions.DoctorWasFoundException;
 import ro.mycode.onlineclinicapi.exceptions.ListEmptyException;
@@ -30,6 +32,8 @@ public class DoctorService {
         return doctors;
     }
 
+    @Modifying
+    @Transactional
     public void addDoctor(Doctor doctor){
         Optional<Doctor> doctorOptional = this.doctorRepo.getDoctorByFullName(doctor.getFullName());
 
@@ -40,6 +44,8 @@ public class DoctorService {
         }
     }
 
+    @Modifying
+    @Transactional
     public Doctor getDoctorByUsername(String username){
         Optional<Doctor> doctorOptional = this.doctorRepo.getDoctorByUsername(username);
 
