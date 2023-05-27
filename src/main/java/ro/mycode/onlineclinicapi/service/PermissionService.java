@@ -2,6 +2,7 @@ package ro.mycode.onlineclinicapi.service;
 
 
 import org.springframework.stereotype.Service;
+import ro.mycode.onlineclinicapi.dto.PermissionDTO;
 import ro.mycode.onlineclinicapi.exceptions.ListEmptyException;
 import ro.mycode.onlineclinicapi.exceptions.PermissionNotFoundException;
 import ro.mycode.onlineclinicapi.exceptions.PermissionWasFoundException;
@@ -68,5 +69,22 @@ public class PermissionService {
         }
 
         return permissionOptional.get();
+    }
+
+    public void updatePermission(PermissionDTO permissionDTO){
+        Optional<Permission> updatePermission = this.permissionRepo.getPermissionByTitle(permissionDTO.getTitle());
+
+
+        if(updatePermission.isEmpty()){
+            throw new PermissionNotFoundException();
+        }
+
+        if(permissionDTO.getModule() != null){
+            updatePermission.get().setModule(permissionDTO.getModule());
+        }else if(permissionDTO.getDescription() != null){
+            updatePermission.get().setDescription(permissionDTO.getDescription());
+        }
+
+        permissionRepo.saveAndFlush(updatePermission.get());
     }
 }
