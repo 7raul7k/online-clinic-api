@@ -3,6 +3,7 @@ package ro.mycode.onlineclinicapi.service;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ro.mycode.onlineclinicapi.dto.PatientDTO;
 import ro.mycode.onlineclinicapi.exceptions.ListEmptyException;
 import ro.mycode.onlineclinicapi.exceptions.PatientNotFoundException;
 import ro.mycode.onlineclinicapi.exceptions.PatientWasFoundException;
@@ -34,11 +35,19 @@ public class PatientService {
 
     @Modifying
     @Transactional
-    public void addPatient(Patient patient){
-        Optional<Patient> patient1 = this.patientRepo.getPatientByFullName(patient.getFullName());
+    public void addPatient(PatientDTO patientDTO){
+        Optional<Patient> patient1 = this.patientRepo.getPatientByFullName(patientDTO.getFullName());
 
         if(patient1.isEmpty()){
-            patientRepo.save(patient);
+           Patient patient = Patient.builder().fullName(patientDTO.getFullName())
+                   .number(patientDTO.getNumber())
+                   .password(patientDTO.getPassword())
+                   .adress(patientDTO.getAdress())
+                   .username(patientDTO.getUsername())
+                   .email(patientDTO.getEmail())
+                   .build();
+
+           patientRepo.save(patient);
         }else{
             throw new PatientWasFoundException();
         }
