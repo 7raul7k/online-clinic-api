@@ -106,4 +106,26 @@ public class PatientService {
 
         return patient.get();
     }
+
+    public void updatePatient(PatientDTO patientDTO){
+        Optional<Patient> patient = this.patientRepo.getPatientByFullName(patientDTO.getFullName());
+
+        if(patient.isEmpty()){
+            throw new PatientNotFoundException();
+        }
+
+        if(patientDTO.getAdress() != null){
+            patient.get().setAdress(patientDTO.getAdress());
+        }else if(patientDTO.getUsername() != null){
+            patient.get().setUsername(patientDTO.getUsername());
+        } else if (patientDTO.getNumber() != null) {
+            patient.get().setNumber(patientDTO.getNumber());
+        } else if(patientDTO.getEmail() != null){
+            patient.get().setEmail(patientDTO.getEmail());
+        }else if(patientDTO.getPassword() != null){
+            patient.get().setPassword(patientDTO.getPassword());
+        }
+
+        patientRepo.saveAndFlush(patient.get());
+    }
 }
