@@ -2,11 +2,14 @@ package ro.mycode.onlineclinicapi.service;
 
 
 import org.springframework.stereotype.Service;
-import ro.mycode.onlineclinicapi.exceptions.AppointmentNotFoundException;
-import ro.mycode.onlineclinicapi.exceptions.AppointmentWasFoundException;
-import ro.mycode.onlineclinicapi.exceptions.ListEmptyException;
+import ro.mycode.onlineclinicapi.dto.CreateVisitRequest;
+import ro.mycode.onlineclinicapi.exceptions.*;
 import ro.mycode.onlineclinicapi.models.Appointment;
+import ro.mycode.onlineclinicapi.models.Doctor;
+import ro.mycode.onlineclinicapi.models.Patient;
 import ro.mycode.onlineclinicapi.repo.AppointmentRepo;
+import ro.mycode.onlineclinicapi.repo.DoctorRepo;
+import ro.mycode.onlineclinicapi.repo.PatientRepo;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,8 +20,15 @@ public class AppointmentService {
 
     public AppointmentRepo appointmentRepo;
 
-    public AppointmentService(AppointmentRepo appointmentRepo) {
+    public PatientRepo patientRepo;
+
+    public DoctorRepo doctorRepo;
+
+
+    public AppointmentService(AppointmentRepo appointmentRepo, PatientRepo patientRepo, DoctorRepo doctorRepo) {
         this.appointmentRepo = appointmentRepo;
+        this.patientRepo = patientRepo;
+        this.doctorRepo = doctorRepo;
     }
 
     public List<Appointment> getAllAppointment() {
@@ -80,6 +90,29 @@ public class AppointmentService {
         }
 
         return appointmentList;
+    }
+
+    public void createVisit(CreateVisitRequest visitRequest){
+        Optional<Patient> patient = this.patientRepo.getPatientByEmail(visitRequest.getPatientEmail());
+
+        if(patient.isEmpty()){
+            throw new PatientNotFoundException();
+        }
+
+        Optional<Doctor> doctor = this.doctorRepo.getDoctorByFullName(visitRequest.getDoctorName());
+
+        if(doctor.isEmpty()){
+            throw new DoctorNotFoundException();
+        }
+
+        Appointment appointment = Appointment.builder().doctor(doctor.get())
+                .date(visitRequest.getDate())
+                .description(visitRequest.getDescription())
+                .type(visitRequest.getType())
+                .number(visitRequest.getPatientNumber())
+                .build();
+
+        this.appointmentRepo.save(appointment);
     }
 
 }
