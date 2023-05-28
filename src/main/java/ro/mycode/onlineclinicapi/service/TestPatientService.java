@@ -96,6 +96,8 @@ public class TestPatientService {
             testPatient.get().setCost(testPatientDTO.getCost());
 
         }
+
+        this.testPatientRepo.saveAndFlush(testPatient.get());
     }
 
 
