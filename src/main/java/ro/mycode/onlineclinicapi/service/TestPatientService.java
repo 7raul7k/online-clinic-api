@@ -1,6 +1,7 @@
 package ro.mycode.onlineclinicapi.service;
 
 import org.springframework.stereotype.Service;
+import ro.mycode.onlineclinicapi.dto.TestPatientDTO;
 import ro.mycode.onlineclinicapi.exceptions.ListEmptyException;
 import ro.mycode.onlineclinicapi.exceptions.TestPatientNotFoundException;
 import ro.mycode.onlineclinicapi.exceptions.TestPatientWasFoundException;
@@ -76,6 +77,25 @@ public class TestPatientService {
         }
 
         return testPatientList;
+    }
+
+    public void updateTest(TestPatientDTO testPatientDTO){
+        Optional<TestPatient> testPatient = this.testPatientRepo.getTestByName(testPatientDTO.getName());
+
+        if(testPatient.isEmpty()){
+            throw new TestPatientNotFoundException();
+        }
+
+        if(testPatientDTO.getType() != null){
+            testPatient.get().setType(testPatientDTO.getType());
+        }else if(testPatientDTO.getDescription() != null){
+            testPatient.get().setDescription(testPatientDTO.getDescription());
+        }else if(testPatientDTO.getReport() != null){
+            testPatient.get().setReport(testPatientDTO.getReport());
+        } else if (testPatientDTO.getCost() > 0) {
+            testPatient.get().setCost(testPatientDTO.getCost());
+
+        }
     }
 
 
