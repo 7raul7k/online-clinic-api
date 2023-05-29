@@ -255,4 +255,13 @@ class PatientServiceTest {
 
         assertEquals(argumentCaptor.getValue(),patient);
     }
+
+    @Test
+    public void updatePatientException(){
+        doReturn(Optional.empty()).when(patientRepo).getPatientByFullName("test");
+
+        assertThrows(PatientNotFoundException.class,()->{
+            this.patientService.updatePatient(PatientDTO.builder().fullName("test").build());
+        });
+    }
 }
