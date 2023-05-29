@@ -2,6 +2,7 @@ package ro.mycode.onlineclinicapi.service;
 
 
 import org.springframework.stereotype.Service;
+import ro.mycode.onlineclinicapi.dto.UsernameDTO;
 import ro.mycode.onlineclinicapi.exceptions.ListEmptyException;
 import ro.mycode.onlineclinicapi.exceptions.UsernameNotFoundException;
 import ro.mycode.onlineclinicapi.exceptions.UsernameWasFoundException;
@@ -51,7 +52,7 @@ public class UsernameService {
         }
     }
 
-    public Optional<Username> getUsernameByName(String name){
+    public Username getUsernameByName(String name){
         Optional<Username> usernameOptional = this.usernameRepo.getUsernameByName(name);
 
         if(usernameOptional.isEmpty()){
@@ -79,5 +80,25 @@ public class UsernameService {
         }
 
         return usernameList;
+    }
+
+    public void updateUsername(UsernameDTO usernameDTO){
+
+        Optional<Username> usernameOptional = this.usernameRepo.getUsernameByName(usernameDTO.getName());
+
+        if(usernameOptional.isEmpty()){
+            throw new UsernameNotFoundException();
+        }
+
+        if(usernameDTO.getAddress() != null){
+
+            usernameOptional.get().setAddress(usernameDTO.getAddress());
+        }else if (usernameDTO.getEmail() != null){
+            usernameOptional.get().setEmail(usernameDTO.getEmail());
+        }else if(usernameDTO.getDob() != null){
+            usernameOptional.get().setDob(usernameDTO.getDob());
+        }
+
+        this.usernameRepo.saveAndFlush(usernameOptional.get());
     }
 }

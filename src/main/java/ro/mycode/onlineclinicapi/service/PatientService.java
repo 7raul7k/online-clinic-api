@@ -3,6 +3,7 @@ package ro.mycode.onlineclinicapi.service;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ro.mycode.onlineclinicapi.dto.PatientDTO;
 import ro.mycode.onlineclinicapi.exceptions.ListEmptyException;
 import ro.mycode.onlineclinicapi.exceptions.PatientNotFoundException;
 import ro.mycode.onlineclinicapi.exceptions.PatientWasFoundException;
@@ -34,11 +35,19 @@ public class PatientService {
 
     @Modifying
     @Transactional
-    public void addPatient(Patient patient){
-        Optional<Patient> patient1 = this.patientRepo.getPatientByFullName(patient.getFullName());
+    public void addPatient(PatientDTO patientDTO){
+        Optional<Patient> patient1 = this.patientRepo.getPatientByFullName(patientDTO.getFullName());
 
         if(patient1.isEmpty()){
-            patientRepo.save(patient);
+           Patient patient = Patient.builder().fullName(patientDTO.getFullName())
+                   .number(patientDTO.getNumber())
+                   .password(patientDTO.getPassword())
+                   .adress(patientDTO.getAdress())
+                   .username(patientDTO.getUsername())
+                   .email(patientDTO.getEmail())
+                   .build();
+
+           patientRepo.save(patient);
         }else{
             throw new PatientWasFoundException();
         }
@@ -96,5 +105,27 @@ public class PatientService {
         }
 
         return patient.get();
+    }
+
+    public void updatePatient(PatientDTO patientDTO){
+        Optional<Patient> patient = this.patientRepo.getPatientByFullName(patientDTO.getFullName());
+
+        if(patient.isEmpty()){
+            throw new PatientNotFoundException();
+        }
+
+        if(patientDTO.getAdress() != null){
+            patient.get().setAdress(patientDTO.getAdress());
+        }else if(patientDTO.getUsername() != null){
+            patient.get().setUsername(patientDTO.getUsername());
+        } else if (patientDTO.getNumber() != null) {
+            patient.get().setNumber(patientDTO.getNumber());
+        } else if(patientDTO.getEmail() != null){
+            patient.get().setEmail(patientDTO.getEmail());
+        }else if(patientDTO.getPassword() != null){
+            patient.get().setPassword(patientDTO.getPassword());
+        }
+
+        patientRepo.saveAndFlush(patient.get());
     }
 }

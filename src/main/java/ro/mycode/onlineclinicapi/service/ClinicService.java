@@ -4,6 +4,7 @@ package ro.mycode.onlineclinicapi.service;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ro.mycode.onlineclinicapi.dto.ClinicDTO;
 import ro.mycode.onlineclinicapi.exceptions.ClinicNotFoundException;
 import ro.mycode.onlineclinicapi.exceptions.ClinicWasFoundException;
 import ro.mycode.onlineclinicapi.exceptions.ListEmptyException;
@@ -89,4 +90,23 @@ public class ClinicService {
 
     }
 
+    public void updateClinic(ClinicDTO clinicDTO){
+        Optional<Clinic> clinic = this.clinicRepo.getClinicByName(clinicDTO.getName());
+
+        if(clinic.isEmpty()){
+            throw new ClinicNotFoundException();
+        }
+
+        if(clinicDTO.getPlace() != null){
+            clinic.get().setPlace(clinicDTO.getPlace());
+        } else if (clinicDTO.getAdress() != null) {
+            clinic.get().setAddress(clinicDTO.getAdress());
+        } else if (clinicDTO.getDescription() != null) {
+            clinic.get().setDescription(clinicDTO.getDescription());
+        } else if (clinicDTO.getType() != null) {
+            clinic.get().getType();
+        }
+
+        clinicRepo.saveAndFlush(clinic.get());
+    }
 }
