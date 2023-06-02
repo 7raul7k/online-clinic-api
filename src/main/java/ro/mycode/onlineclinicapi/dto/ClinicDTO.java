@@ -19,6 +19,6 @@ public class ClinicDTO {
     private String type;
     private String description;
     private String place;
-    private String adress;
+    private String address;
 
 }

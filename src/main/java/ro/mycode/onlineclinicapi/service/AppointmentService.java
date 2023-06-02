@@ -65,7 +65,7 @@ public class AppointmentService {
         Optional<Appointment> appointmentOptional = this.appointmentRepo.getAppointmentByNumber(number);
 
         if(appointmentOptional.isEmpty()){
-            throw new ListEmptyException();
+            throw new AppointmentNotFoundException();
         }
 
         return appointmentOptional.get();

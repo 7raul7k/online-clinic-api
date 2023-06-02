@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import ro.mycode.onlineclinicapi.models.Patient;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -13,16 +12,17 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class TestPatientDTO {
+public class DoctorDTO {
 
     @NotEmpty
-    private String name;
+    private String fullName;
+    private String mobile;
+    private String email;
     @NotEmpty
-    private String type;
-    private String description;;
-    private double cost;
-    private String report;
+    private String adress;
+    private String password;
+    @NotEmpty
+    private String username;
 
-    private Patient patient;
 
 }

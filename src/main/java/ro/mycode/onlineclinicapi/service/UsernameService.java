@@ -32,10 +32,15 @@ public class UsernameService {
         return usernameList;
     }
 
-    public void addUsername(Username username){
-        Optional<Username> usernameOptional = this.usernameRepo.getUsernameByName(username.getName());
+    public void addUsername(UsernameDTO usernameDTO){
+        Optional<Username> usernameOptional = this.usernameRepo.getUsernameByName(usernameDTO.getName());
 
         if(usernameOptional.isEmpty()){
+            Username username = Username.builder().name(usernameDTO.getName())
+                    .dob(usernameDTO.getDob())
+                    .address(usernameDTO.getAddress())
+                    .email(usernameDTO.getEmail())
+                    .build();
             this.usernameRepo.save(username);
         }else{
             throw new UsernameWasFoundException();

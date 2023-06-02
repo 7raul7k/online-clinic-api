@@ -35,11 +35,17 @@ public class ClinicService {
 
     @Modifying
     @Transactional
-    public void addClinic(Clinic clinic){
-        Optional<Clinic> clinicOptional = this.clinicRepo.getClinicByName(clinic.getName());
+    public void addClinic(ClinicDTO clinicDTO){
+        Optional<Clinic> clinicOptional = this.clinicRepo.getClinicByName(clinicDTO.getName());
 
         if(clinicOptional.isEmpty()){
 
+            Clinic clinic = Clinic.builder().name(clinicDTO.getName())
+                            .description(clinicDTO.getDescription())
+                            .address(clinicDTO.getAddress())
+                            .type(clinicDTO.getType())
+                            .place(clinicDTO.getPlace())
+                            .build();
             clinicRepo.save(clinic);
 
         }else{
@@ -73,7 +79,7 @@ public class ClinicService {
         List<Clinic> clinic = this.clinicRepo.getClinicByPlace(place);
 
         if(clinic.isEmpty()){
-            throw new ClinicNotFoundException();
+            throw new ListEmptyException();
         }
 
         return clinic;
@@ -83,7 +89,7 @@ public class ClinicService {
         List<Clinic> clinic = this.clinicRepo.getClinicByType(type);
 
         if(clinic.isEmpty()){
-            throw new ClinicNotFoundException();
+            throw new ListEmptyException();
         }
 
         return clinic;
@@ -99,8 +105,8 @@ public class ClinicService {
 
         if(clinicDTO.getPlace() != null){
             clinic.get().setPlace(clinicDTO.getPlace());
-        } else if (clinicDTO.getAdress() != null) {
-            clinic.get().setAddress(clinicDTO.getAdress());
+        } else if (clinicDTO.getAddress() != null) {
+            clinic.get().setAddress(clinicDTO.getAddress());
         } else if (clinicDTO.getDescription() != null) {
             clinic.get().setDescription(clinicDTO.getDescription());
         } else if (clinicDTO.getType() != null) {
