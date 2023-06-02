@@ -30,10 +30,17 @@ public class TestPatientService {
         return testPatientList;
     }
 
-    public void addTestPatient(TestPatient testPatient){
-        Optional<TestPatient> patientOptional = this.testPatientRepo.getTestByName(testPatient.getName());
+    public void addTestPatient(TestPatientDTO testPatientDTO){
+        Optional<TestPatient> patientOptional = this.testPatientRepo.getTestByName(testPatientDTO.getName());
 
         if(patientOptional.isEmpty()){
+            TestPatient testPatient = TestPatient.builder().type(testPatientDTO.getType())
+                    .description(testPatientDTO.getDescription())
+                    .cost(testPatientDTO.getCost())
+                    .name(testPatientDTO.getName())
+                    .report(testPatientDTO.getReport())
+                    .patient(testPatientDTO.getPatient())
+                    .build();
             this.testPatientRepo.save(testPatient);
         }else{
             throw new TestPatientWasFoundException();
@@ -45,6 +52,8 @@ public class TestPatientService {
 
         if(patientOptional.isEmpty()){
             throw new TestPatientNotFoundException();
+        }else{
+            this.testPatientRepo.delete(patientOptional.get());
         }
 
     }
@@ -63,7 +72,7 @@ public class TestPatientService {
         List<TestPatient> testPatientList = this.testPatientRepo.getTestByType(type);
 
         if(testPatientList.isEmpty()){
-            throw new TestPatientNotFoundException();
+            throw new ListEmptyException();
         }
 
         return testPatientList;
@@ -73,7 +82,7 @@ public class TestPatientService {
         List<TestPatient> testPatientList = this.testPatientRepo.getTestByReport(report);
 
         if(testPatientList.isEmpty()){
-            throw new TestPatientNotFoundException();
+            throw new ListEmptyException();
         }
 
         return testPatientList;
