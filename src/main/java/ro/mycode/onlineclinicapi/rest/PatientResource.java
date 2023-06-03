@@ -95,6 +95,8 @@ public class PatientResource {
         this.patientService.updatePatient(patientDTO);
 
         return new ResponseEntity<>(new CreateRestResponse("Patient was updated"),HttpStatus.OK);
+
+
     }
 
 
