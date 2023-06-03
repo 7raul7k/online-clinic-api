@@ -28,7 +28,7 @@ public class AppointmentResource {
     public ResponseEntity<List<Appointment>> getAllAppointment(){
 
         List<Appointment> appointments = this.appointmentService.getAllAppointment();
-        log.info("REST request to get all appointment",appointments);
+        log.info("REST request to get all appointment {}",appointments);
 
         return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
@@ -37,35 +37,35 @@ public class AppointmentResource {
     public ResponseEntity<CreateRestResponse> addAppointment(@RequestBody Appointment appointment){
         this.appointmentService.addAppointment(appointment);
 
-        log.info("REST request to add appointment",appointment);
+        log.info("REST request to add appointment {}",appointment);
 
         return new ResponseEntity<>(new CreateRestResponse("Appointment was added!"),HttpStatus.OK);
     }
 
-    @DeleteMapping("/removeAppointment/number")
+    @DeleteMapping("/removeAppointment/{number}")
     public ResponseEntity<CreateRestResponse> removeAppointment(@PathVariable String number){
 
         this.appointmentService.deleteAppointment(number);
 
-        log.info("REST request to remove appointment by number");
+        log.info("REST request to remove appointment by number {}",number);
 
         return new ResponseEntity<>(new CreateRestResponse("Appointment was removed!"),HttpStatus.OK);
     }
 
-    @GetMapping("/getAppointmentByNumber/number")
+    @GetMapping("/getAppointmentByNumber/{number}")
     public ResponseEntity<Appointment> getAppointmentbyNumber(@PathVariable String number){
         Appointment appointment = this.appointmentService.getAppointmentByNumber(number);
 
-        log.info("REST request to get all appointment by number",number);
+        log.info("REST request to get all appointment by number {}",number);
 
         return new ResponseEntity<>(appointment,HttpStatus.OK);
     }
 
-    @GetMapping("/getAppointmentByType/type")
+    @GetMapping("/getAppointmentByType/{type}")
     public ResponseEntity<List<Appointment>> getAppointmentByType(@PathVariable String type){
         List<Appointment> appointmentList = this.appointmentService.getAppointmentbyType(type);
 
-        log.info("REST request to get all appointment by type",type);
+        log.info("REST request to get all appointment by type  {}",type);
 
         return new ResponseEntity<>(appointmentList,HttpStatus.OK);
     }
@@ -75,7 +75,7 @@ public class AppointmentResource {
 
         List<Appointment> appointmentList = this.appointmentService.getAppointmentbyDate(date);
 
-        log.info("REST request to get all appointment by date",date);
+        log.info("REST request to get all appointment by date  {}",date);
 
         return new ResponseEntity<>(appointmentList,HttpStatus.OK);
     }
@@ -84,7 +84,7 @@ public class AppointmentResource {
     public ResponseEntity<CreateRestResponse> createVisit(@RequestBody CreateVisitRequest createVisitRequest){
         this.appointmentService.createVisit(createVisitRequest);
 
-        log.info("REST request to create appointment",createVisitRequest);
+        log.info("REST request to create appointment {}",createVisitRequest);
 
         return new ResponseEntity<>(new CreateRestResponse("Appointment was created!"),HttpStatus.OK);
     }
