@@ -36,18 +36,18 @@ public class ClinicResource {
     public ResponseEntity<CreateRestResponse> addClinic(@RequestBody ClinicDTO clinicDTO){
          this.clinicService.addClinic(clinicDTO);
 
-        log.info("REST request to add clinic ",clinicDTO);
+        log.info("REST request to add clinic  {}",clinicDTO);
 
         return new ResponseEntity<>(new CreateRestResponse("Clinic was added!"),HttpStatus.OK);
     }
 
 
-    @DeleteMapping("/removeClinic/clinicName")
+    @DeleteMapping("/removeClinic/{clinicName}")
     public ResponseEntity<CreateRestResponse> removeClinic(@PathVariable String clinicName){
 
         this.clinicService.removeClinic(clinicName);
 
-        log.info("REST request to remove clinic by name ",clinicName);
+        log.info("REST request to remove clinic by name  {}",clinicName);
 
         return new ResponseEntity<>(new CreateRestResponse("Clinic was deleted!"),HttpStatus.OK);
     }
@@ -56,7 +56,7 @@ public class ClinicResource {
     public ResponseEntity<Clinic> getClinicByName(@RequestParam String name){
         Clinic clinic = this.clinicService.getClinicByName(name);
 
-        log.info("REST request to get clinic by name ",name);
+        log.info("REST request to get clinic by name {} ",name);
 
         return new ResponseEntity<>(clinic,HttpStatus.OK);
     }
@@ -66,16 +66,16 @@ public class ClinicResource {
 
         List<Clinic> clinicList = this.clinicService.getClinicByPlace(place);
 
-        log.info("REST request to get clinic by place ",place);
+        log.info("REST request to get clinic by place {} ",place);
 
         return new ResponseEntity<>(clinicList,HttpStatus.OK);
     }
 
-    @GetMapping("/getClinicByType/type")
+    @GetMapping("/getClinicByType/{type}")
     public ResponseEntity<List<Clinic>> getClinicByType(@PathVariable String type){
        List<Clinic> clinicList = this.clinicService.getClinicByType(type);
 
-        log.info("REST request to get clinic by type ",type);
+        log.info("REST request to get clinic by type {} ",type);
 
         return new ResponseEntity<>(clinicList,HttpStatus.OK);
     }
@@ -84,7 +84,7 @@ public class ClinicResource {
     public ResponseEntity<CreateRestResponse> updateClinic(@RequestBody ClinicDTO clinicDTO){
         this.clinicService.updateClinic(clinicDTO);
 
-        log.info("REST request to update clinic ",clinicDTO);
+        log.info("REST request to update clinic  {}",clinicDTO);
 
         return new ResponseEntity<>(new CreateRestResponse("Clinic was updated!"),HttpStatus.OK);
 

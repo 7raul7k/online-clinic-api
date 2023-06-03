@@ -34,26 +34,26 @@ public class PatientResource {
 
     @PostMapping("/addPatient")
     public ResponseEntity<CreateRestResponse> addPatient(@RequestBody PatientDTO patientDTO){
-        log.info("REST request to add patient",patientDTO);
+        log.info("REST request to add patient {}",patientDTO);
 
         this.patientService.addPatient(patientDTO);
 
         return new ResponseEntity<>(new CreateRestResponse("Patient was added!"),HttpStatus.OK);
     }
 
-    @DeleteMapping("/removePatient/patientName")
+    @DeleteMapping("/removePatient/{patientName}")
     public ResponseEntity<CreateRestResponse> removePatient(@PathVariable String patientName){
-        log.info("REST request to delete patient by name",patientName);
+        log.info("REST request to delete patient by name {}",patientName);
 
         this.patientService.deletePatient(patientName);
 
         return new ResponseEntity<>(new CreateRestResponse("Patient was deleted!"),HttpStatus.OK);
     }
 
-    @GetMapping("/getPatientbyId/id")
+    @GetMapping("/getPatientbyId/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable int id){
 
-        log.info("REST request to get patient by id",id);
+        log.info("REST request to get patient by id {}",id);
 
        Patient patient =  this.patientService.getPatientbyId(id);
 
@@ -61,18 +61,18 @@ public class PatientResource {
 
     }
 
-    @GetMapping("/getPatientbyUsername/username")
+    @GetMapping("/getPatientbyUsername/{username}")
     public ResponseEntity<Patient> getPatientByUsername(@PathVariable String username){
-        log.info("REST request to get patient by username",username);
+        log.info("REST request to get patient by username {}",username);
 
         Patient patient = this.patientService.getPatientByUsername(username);
 
         return new ResponseEntity<>(patient,HttpStatus.OK);
     }
 
-    @GetMapping("/getPatientByEmail/email")
+    @GetMapping("/getPatientByEmail/{email}")
     public ResponseEntity<Patient> getPatientByEmail(@PathVariable String email){
-        log.info("REST request to get patient by email",email);
+        log.info("REST request to get patient by email {}",email);
 
         Patient patient = this.patientService.getPatientByEmail(email);
 
@@ -81,7 +81,7 @@ public class PatientResource {
 
     @GetMapping("/getPatientByFullName")
     public ResponseEntity<Patient> getPatientByFullName(@RequestParam String fullName){
-        log.info("REST request to get patient by full name",fullName);
+        log.info("REST request to get patient by full name {}",fullName);
 
         Patient patient = this.patientService.getPatientbyFullName(fullName);
 
@@ -90,7 +90,7 @@ public class PatientResource {
 
     @PutMapping("/updatePatient")
     public ResponseEntity<CreateRestResponse> updatePatient(@RequestBody PatientDTO patientDTO){
-        log.info("REST request to update patient ",patientDTO);
+        log.info("REST request to update patient {} ",patientDTO);
 
         this.patientService.updatePatient(patientDTO);
 

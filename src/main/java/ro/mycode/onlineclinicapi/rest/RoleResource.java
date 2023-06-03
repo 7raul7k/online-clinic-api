@@ -24,7 +24,7 @@ public class RoleResource {
     @GetMapping("/getAllRole")
     public ResponseEntity<List<Role>> getAllRole(){
         List<Role> roleList = this.roleService.getAllRole();
-        log.info("REST request to get all role ",roleList);
+        log.info("REST request to get all role {} ",roleList);
 
         return new ResponseEntity<>(roleList, HttpStatus.OK);
     }
@@ -32,7 +32,7 @@ public class RoleResource {
     @PostMapping("/addRole")
     public ResponseEntity<CreateRestResponse> addRole(@RequestBody Role role){
 
-        log.info("REST request to add role ",role);
+        log.info("REST request to add role {} ",role);
 
         this.roleService.addRole(role);
 
@@ -40,9 +40,9 @@ public class RoleResource {
 
     }
 
-    @DeleteMapping("/deleteRole/roleTitle")
+    @DeleteMapping("/deleteRole/{roleTitle}")
     public ResponseEntity<CreateRestResponse> removeRole(@PathVariable String roleTitle){
-        log.info("REST request to remove role by title ",roleTitle);
+        log.info("REST request to remove role by title {} ",roleTitle);
 
         this.roleService.removeRole(roleTitle);
 
@@ -50,9 +50,9 @@ public class RoleResource {
 
     }
 
-    @GetMapping("/getRoleById/id")
+    @GetMapping("/getRoleById/{id}")
     public ResponseEntity<Role> getRoleById(@PathVariable int id){
-        log.info("REST request to get  role by id ",id);
+        log.info("REST request to get role by id {} ",id);
 
         Role role = this.roleService.getRoleById(id);
 
@@ -60,9 +60,9 @@ public class RoleResource {
 
     }
 
-    @GetMapping("/getRoleByTitle/title")
+    @GetMapping("/getRoleByTitle/{title}")
     public ResponseEntity<Role> getRoleByTitle(@PathVariable String title){
-        log.info("REST request to get role by title ",title);
+        log.info("REST request to get role by title {} ",title);
 
         Role role = this.roleService.getRoleByTitle(title);
 
