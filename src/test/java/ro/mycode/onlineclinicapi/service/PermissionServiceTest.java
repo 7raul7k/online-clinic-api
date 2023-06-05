@@ -63,7 +63,7 @@ class PermissionServiceTest {
 
     @Test
     public void addPermission(){
-        Permission permission = Permission.builder().title("test").description("test").module("test").build();
+        PermissionDTO permission = PermissionDTO.builder().title("test").description("test").module("test").build();
 
         doReturn(Optional.empty()).when(permissionRepo).getPermissionByTitle(permission.getTitle());
 
@@ -79,7 +79,7 @@ class PermissionServiceTest {
         doReturn(Optional.of(new Permission())).when(permissionRepo).getPermissionByTitle("test");
 
         assertThrows(PermissionWasFoundException.class,()->{
-            this.permissionService.addPermission(Permission.builder().title("test").build());
+            this.permissionService.addPermission(PermissionDTO.builder().title("test").build());
         });
     }
 

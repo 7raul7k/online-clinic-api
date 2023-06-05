@@ -31,10 +31,16 @@ public class PermissionService {
         return permissionList;
     }
 
-    public void addPermission(Permission permission){
-        Optional<Permission> permissionOptional = this.permissionRepo.getPermissionByTitle(permission.getTitle());
+    public void addPermission(PermissionDTO permissionDTO){
+        Optional<Permission> permissionOptional = this.permissionRepo.getPermissionByTitle(permissionDTO.getTitle());
 
         if(permissionOptional.isEmpty()){
+            Permission permission = Permission.builder().description(permissionDTO.getDescription())
+                    .role(permissionDTO.getRole())
+                    .module(permissionDTO.getModule())
+                    .title(permissionDTO.getTitle())
+                    .build();
+
             this.permissionRepo.save(permission);
         }else{
             throw new PermissionWasFoundException();
