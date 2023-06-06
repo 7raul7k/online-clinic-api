@@ -74,5 +74,7 @@ public class UsernameResource {
         this.usernameService.updateUsername(usernameDTO);
 
         log.info("REST request to update username {}", usernameDTO);
+
+        return new ResponseEntity<>(new CreateRestResponse("Username was updated"),HttpStatus.OK);
     }
 }
