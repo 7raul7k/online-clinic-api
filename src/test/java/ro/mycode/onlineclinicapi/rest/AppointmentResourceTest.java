@@ -18,6 +18,7 @@ import ro.mycode.onlineclinicapi.dto.CreateVisitRequest;
 import ro.mycode.onlineclinicapi.exceptions.AppointmentNotFoundException;
 import ro.mycode.onlineclinicapi.exceptions.AppointmentWasFoundException;
 import ro.mycode.onlineclinicapi.exceptions.ListEmptyException;
+import ro.mycode.onlineclinicapi.exceptions.PatientNotFoundException;
 import ro.mycode.onlineclinicapi.models.Appointment;
 import ro.mycode.onlineclinicapi.models.Doctor;
 import ro.mycode.onlineclinicapi.models.Patient;
@@ -153,7 +154,10 @@ class AppointmentResourceTest {
 
     @Test
     public void createVisitBadRequest() throws Exception{
-        doThrow()
+        doThrow(PatientNotFoundException.class).when(appointmentService).createVisit(new CreateVisitRequest());
+
+        restMockMvc.perform(put("/api/v1/appointment/createVisit").contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(new CreateVisitRequest()))).andExpect(status().isBadRequest() );
+
     }
 
 

@@ -85,16 +85,18 @@ public class ClinicService {
         return clinic;
     }
 
-    public  List<Clinic> getClinicByType(String type){
+    public  List<Clinic> getClinicByType(String type) {
         List<Clinic> clinic = this.clinicRepo.getClinicByType(type);
 
-        if(clinic.isEmpty()){
+        if (clinic.isEmpty()) {
             throw new ListEmptyException();
+        } else {
+
+            return clinic;
+
         }
-
-        return clinic;
-
     }
+
 
     public void updateClinic(ClinicDTO clinicDTO){
         Optional<Clinic> clinic = this.clinicRepo.getClinicByName(clinicDTO.getName());
