@@ -7,6 +7,7 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ro.mycode.onlineclinicapi.dto.AppointmentDTO;
 import ro.mycode.onlineclinicapi.dto.CreateVisitRequest;
 import ro.mycode.onlineclinicapi.exceptions.*;
 import ro.mycode.onlineclinicapi.models.Appointment;
@@ -73,32 +74,7 @@ class AppointmentServiceTest {
         });
     }
 
-    @Test
-    public void addAppointment() {
-        Appointment appointment = Appointment.builder().description("test").date(LocalDate.of(2023, 6, 20)).number("07326482134").type("clinic").build();
 
-        doReturn(Optional.empty()).when(appointmentRepo).getAppointmentByNumber(appointment.getNumber());
-
-        this.appointmentService.addAppointment(appointment);
-
-        verify(appointmentRepo, times(1)).save(argumentCaptor.capture());
-
-        assertEquals(argumentCaptor.getValue(), appointment);
-
-
-    }
-
-    @Test
-    public void addAppointmentException() {
-
-        doReturn(Optional.of(new Appointment())).when(appointmentRepo).getAppointmentByNumber("test");
-
-        assertThrows(AppointmentWasFoundException.class, () -> {
-            this.appointmentService.addAppointment(Appointment.builder().number("test").build());
-        });
-
-
-    }
 
     @Test
     public void removeAppointment() {
@@ -246,7 +222,7 @@ class AppointmentServiceTest {
     }
 
     @Test
-    public void createVisitDoctorException(){
+    public void createVisitDoctorBadRequest(){
         doReturn(Optional.of(new Patient())).when(patientRepo).getPatientByEmail("test");
         doReturn(Optional.empty()).when(doctorRepo).getDoctorByFullName("test");
 

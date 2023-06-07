@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.mycode.onlineclinicapi.dto.AppointmentDTO;
 import ro.mycode.onlineclinicapi.dto.CreateRestResponse;
 import ro.mycode.onlineclinicapi.dto.CreateVisitRequest;
 import ro.mycode.onlineclinicapi.models.Appointment;
@@ -31,15 +32,6 @@ public class AppointmentResource {
         log.info("REST request to get all appointment {}",appointments);
 
         return new ResponseEntity<>(appointments, HttpStatus.OK);
-    }
-
-    @PostMapping("/addAppointment")
-    public ResponseEntity<CreateRestResponse> addAppointment(@RequestBody Appointment appointment){
-        this.appointmentService.addAppointment(appointment);
-
-        log.info("REST request to add appointment {}",appointment);
-
-        return new ResponseEntity<>(new CreateRestResponse("Appointment was added!"),HttpStatus.OK);
     }
 
     @DeleteMapping("/removeAppointment/{number}")
