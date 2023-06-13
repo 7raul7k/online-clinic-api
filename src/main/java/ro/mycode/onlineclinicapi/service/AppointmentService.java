@@ -2,6 +2,7 @@ package ro.mycode.onlineclinicapi.service;
 
 
 import org.springframework.stereotype.Service;
+import ro.mycode.onlineclinicapi.dto.AppointmentDTO;
 import ro.mycode.onlineclinicapi.dto.CreateVisitRequest;
 import ro.mycode.onlineclinicapi.exceptions.*;
 import ro.mycode.onlineclinicapi.models.Appointment;
@@ -41,15 +42,6 @@ public class AppointmentService {
         return appointments;
     }
 
-    public void addAppointment(Appointment appointment) {
-        Optional<Appointment> appointmentOptional = this.appointmentRepo.getAppointmentByNumber(appointment.getNumber());
-
-        if (appointmentOptional.isEmpty()) {
-            this.appointmentRepo.save(appointment);
-        } else {
-            throw new AppointmentWasFoundException();
-        }
-    }
 
     public void deleteAppointment(String number){
         Optional<Appointment> appointmentOptional = this.appointmentRepo.getAppointmentByNumber(number);

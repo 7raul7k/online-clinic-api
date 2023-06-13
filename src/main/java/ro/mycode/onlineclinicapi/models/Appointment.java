@@ -52,4 +52,9 @@ public class Appointment {
     @JsonBackReference(value = "test5")
     private Doctor doctor;
 
+    @Override
+    public String toString(){
+        return id+","+number+","+type+","+description;
+    }
+
 }

@@ -41,7 +41,7 @@ public class PatientResource {
         return new ResponseEntity<>(new CreateRestResponse("Patient was added!"),HttpStatus.OK);
     }
 
-    @DeleteMapping("/removePatient/{patientName}")
+    @DeleteMapping("/deletePatient/{patientName}")
     public ResponseEntity<CreateRestResponse> removePatient(@PathVariable String patientName){
         log.info("REST request to delete patient by name {}",patientName);
 

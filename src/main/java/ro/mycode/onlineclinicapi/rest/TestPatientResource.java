@@ -3,6 +3,7 @@ package ro.mycode.onlineclinicapi.rest;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.mycode.onlineclinicapi.dto.CreateRestResponse;
@@ -32,7 +33,7 @@ public class TestPatientResource {
         return new ResponseEntity<>(testPatientList, HttpStatus.OK);
     }
 
-    @PostMapping("/addTestPatient")
+    @PostMapping(value = "/addTest",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreateRestResponse> addTestPatient(@RequestBody TestPatientDTO testPatientDTO){
         log.info("REST request to add  test patient {}",testPatientDTO);
 
@@ -61,7 +62,7 @@ public class TestPatientResource {
 
     @GetMapping("/getTestPatientByType")
     public ResponseEntity<List<TestPatient>> getTestByType(@RequestParam String type) {
-        List<TestPatient> testPatientList = this.testPatientService.patientList();
+        List<TestPatient> testPatientList = this.testPatientService.getTestbyType(type);
 
         log.info("REST request to get test patient by type {}", type);
 

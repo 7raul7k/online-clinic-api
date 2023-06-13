@@ -45,6 +45,8 @@ public class TestPatientService {
         }else{
             throw new TestPatientWasFoundException();
         }
+
+
     }
 
     public void deleteTestPatient(String testPatientName){
