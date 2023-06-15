@@ -5,11 +5,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.mycode.onlineclinicapi.PDFGenerator.PatientPDF;
 import ro.mycode.onlineclinicapi.dto.CreateRestResponse;
 import ro.mycode.onlineclinicapi.dto.PatientDTO;
 import ro.mycode.onlineclinicapi.models.Patient;
 import ro.mycode.onlineclinicapi.service.PatientService;
 
+import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -97,6 +102,25 @@ public class PatientResource {
         return new ResponseEntity<>(new CreateRestResponse("Patient was updated"),HttpStatus.OK);
 
 
+    }
+
+    @GetMapping("/exportPdf")
+    public ResponseEntity<CreateRestResponse> exportPdf(HttpServletResponse response,@RequestParam String patientName) throws Exception {
+
+        response.setContentType("application/pdf");
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
+        String currentDate = dateFormat.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment;filename=patientpdf_" + currentDate + ".pdf";
+
+        Patient patient = this.patientService.getPatientbyFullName(patientName);
+
+        PatientPDF patientPDF = new PatientPDF(patient);
+
+        patientPDF.generate(response);
+
+        return new ResponseEntity<>(new CreateRestResponse("PDF was created"),HttpStatus.OK);
     }
 
 

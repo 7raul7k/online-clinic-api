@@ -100,6 +100,6 @@ public class DoctorResource {
         doctorPDF.generate(response);
 
         return new ResponseEntity<>(new CreateRestResponse("PDF was created"),HttpStatus.OK);
-        
+
     }
 }
