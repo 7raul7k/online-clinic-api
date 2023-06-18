@@ -1,17 +1,23 @@
 package ro.mycode.onlineclinicapi.rest;
 
 
+import com.lowagie.text.DocumentException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.mycode.onlineclinicapi.dto.AppointmentDTO;
+import ro.mycode.onlineclinicapi.PDFGenerator.AppointmentPDF;
 import ro.mycode.onlineclinicapi.dto.CreateRestResponse;
 import ro.mycode.onlineclinicapi.dto.CreateVisitRequest;
 import ro.mycode.onlineclinicapi.models.Appointment;
 import ro.mycode.onlineclinicapi.service.AppointmentService;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -79,6 +85,27 @@ public class AppointmentResource {
         log.info("REST request to create appointment {}",createVisitRequest);
 
         return new ResponseEntity<>(new CreateRestResponse("Appointment was created!"),HttpStatus.OK);
+    }
+
+    @GetMapping("/exportPDF")
+    public ResponseEntity<CreateRestResponse> exportPDF(HttpServletResponse response,@RequestParam LocalDate date) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
+        String currentDate = dateFormat.format(new Date());
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment;filename=appointmentpdf_" + currentDate +".pdf";
+
+        response.setHeader(headerKey,headerValue);
+
+        List<Appointment> appointments = this.appointmentService.getAppointmentbyDate(date);
+
+        AppointmentPDF appointmentPDF = new AppointmentPDF(appointments);
+
+        appointmentPDF.generate(response);
+
+        return new ResponseEntity<>(new CreateRestResponse("PDF was created!"),HttpStatus.OK);
+
     }
 
 }

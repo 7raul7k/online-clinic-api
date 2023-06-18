@@ -5,11 +5,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.mycode.onlineclinicapi.PDFGenerator.PermissionPDF;
 import ro.mycode.onlineclinicapi.dto.CreateRestResponse;
 import ro.mycode.onlineclinicapi.dto.PermissionDTO;
 import ro.mycode.onlineclinicapi.models.Permission;
 import ro.mycode.onlineclinicapi.service.PermissionService;
 
+import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -80,5 +85,25 @@ public class PermissionResource {
         log.info("REST request to update permission {}", permissionDTO);
 
         return new ResponseEntity<>(new CreateRestResponse("Permission was updated!"),HttpStatus.OK);
+    }
+
+    @GetMapping("/exportPdf")
+    public ResponseEntity<CreateRestResponse> updatePermission(HttpServletResponse response) throws Exception {
+
+        response.setContentType("application/pdf");
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
+        String currentDate = dateFormat.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment;filename=permissionpdf_" + currentDate +".pdf";
+
+        List<Permission> permissionList = this.permissionService.getAllPermission();
+
+        PermissionPDF permissionPDF = new PermissionPDF(permissionList);
+
+        permissionPDF.generate(response);
+
+        return new ResponseEntity<>(new CreateRestResponse("PDF was created"),HttpStatus.OK);
+
     }
  }

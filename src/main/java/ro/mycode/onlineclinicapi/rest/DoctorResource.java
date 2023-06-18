@@ -5,12 +5,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.mycode.onlineclinicapi.PDFGenerator.DoctorPDF;
 import ro.mycode.onlineclinicapi.dto.CreateRestResponse;
 import ro.mycode.onlineclinicapi.dto.DoctorDTO;
 import ro.mycode.onlineclinicapi.models.Doctor;
 import ro.mycode.onlineclinicapi.service.DoctorService;
 
-import javax.print.Doc;
+import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -77,5 +81,25 @@ public class DoctorResource {
         log.info("REST request to remove doctor by username{}",username);
 
         return new ResponseEntity<>(doctor,HttpStatus.OK);
+    }
+
+    @GetMapping("/exportDoctorPDF")
+    public ResponseEntity<CreateRestResponse> exportPdf(HttpServletResponse response,@RequestParam String doctorName) throws Exception {
+
+        response.setContentType("application/pdf");
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
+        String currentDate = dateFormat.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment;filename=doctorpdf_" + currentDate +".pdf";
+
+        Doctor doctor = this.doctorService.getDoctorByFullName(doctorName);
+
+        DoctorPDF doctorPDF = new DoctorPDF(doctor);
+
+        doctorPDF.generate(response);
+
+        return new ResponseEntity<>(new CreateRestResponse("PDF was created"),HttpStatus.OK);
+
     }
 }
