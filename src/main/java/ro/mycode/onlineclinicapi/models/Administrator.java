@@ -18,7 +18,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class Admin {
+public class Administrator {
 
     @Id
     @SequenceGenerator(name = "admin_sequence",
@@ -53,9 +53,9 @@ public class Admin {
     @Override
     public boolean equals(Object obj){
 
-        Admin admin = (Admin) obj;
+        Administrator administrator = (Administrator) obj;
 
-        if(admin.fullName.equals(this.fullName)&&admin.username.equals(this.username)&&admin.email.equals(this.email)){
+        if(administrator.fullName.equals(this.fullName)&& administrator.username.equals(this.username)&& administrator.email.equals(this.email)){
             return true;
         }
 
