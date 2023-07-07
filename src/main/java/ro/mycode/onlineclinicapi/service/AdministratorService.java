@@ -1,9 +1,11 @@
 package ro.mycode.onlineclinicapi.service;
 
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ro.mycode.onlineclinicapi.exceptions.AdministratorNotFoundException;
 import ro.mycode.onlineclinicapi.exceptions.AdministratorWasFoundException;
-import ro.mycode.onlineclinicapi.exceptions.AppointmentNotFoundException;
 import ro.mycode.onlineclinicapi.exceptions.ListEmptyException;
 import ro.mycode.onlineclinicapi.models.Administrator;
 import ro.mycode.onlineclinicapi.repo.AdministratorRepo;
@@ -31,6 +33,8 @@ public class AdministratorService {
         return administratorList;
     }
 
+    @Modifying
+    @Transactional
     public void addAdministrator(Administrator administrator){
 
         Optional<Administrator> optionalAdministrator = this.adminRepo.getAdminByFullName(administrator.getFullName());
@@ -44,22 +48,27 @@ public class AdministratorService {
 
     }
 
+    @Modifying
+    @Transactional
+
     public void removeAdministrator(String fullName){
 
         Optional<Administrator> administrator = this.adminRepo.getAdminByFullName(fullName);
 
         if(administrator.isEmpty()){
-            throw new AppointmentNotFoundException();
-        }else{
-            this.adminRepo.delete(administrator.get());
+            throw new AdministratorNotFoundException();
         }
+
+
+            this.adminRepo.delete(administrator.get());
+
     }
 
     public Administrator getAdministratorByFullName(String fullName){
         Optional<Administrator> administrator = this.adminRepo.getAdminByFullName(fullName);
 
         if(administrator.isEmpty()){
-            throw new AppointmentNotFoundException();
+            throw new AdministratorNotFoundException();
         }
         return administrator.get();
     }
@@ -69,18 +78,18 @@ public class AdministratorService {
         Optional<Administrator> administrator = this.adminRepo.getAdminById((long) id);
 
         if(administrator.isEmpty()){
-            throw new AppointmentNotFoundException();
+            throw new AdministratorNotFoundException();
         }
         return administrator.get();
 
     }
 
-    public Administrator getAdministrator(String username){
+    public Administrator getAdministratorByUsername(String username){
 
         Optional<Administrator> administrator = this.adminRepo.getAdminByUsername(username);
 
         if(administrator.isEmpty()){
-            throw new AppointmentNotFoundException();
+            throw new AdministratorNotFoundException();
         }
         return administrator.get();
 

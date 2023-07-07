@@ -7,9 +7,11 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ro.mycode.onlineclinicapi.dto.AppointmentDTO;
 import ro.mycode.onlineclinicapi.dto.CreateVisitRequest;
-import ro.mycode.onlineclinicapi.exceptions.*;
+import ro.mycode.onlineclinicapi.exceptions.AppointmentNotFoundException;
+import ro.mycode.onlineclinicapi.exceptions.DoctorNotFoundException;
+import ro.mycode.onlineclinicapi.exceptions.ListEmptyException;
+import ro.mycode.onlineclinicapi.exceptions.PatientNotFoundException;
 import ro.mycode.onlineclinicapi.models.Appointment;
 import ro.mycode.onlineclinicapi.models.Doctor;
 import ro.mycode.onlineclinicapi.models.Patient;
@@ -22,7 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 

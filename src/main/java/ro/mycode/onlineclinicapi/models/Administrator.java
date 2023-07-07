@@ -47,7 +47,7 @@ public class Administrator {
 
     @Override
     public String toString(){
-        return id+" "+fullName+" "+email+" "+dob+" "+username;
+        return fullName+" "+email+" "+dob+" "+username;
     }
 
     @Override
