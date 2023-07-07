@@ -42,9 +42,10 @@ public class AdministratorService {
         if(optionalAdministrator.isEmpty()){
 
             this.adminRepo.save(administrator);
-        }else{
-        throw new AdministratorWasFoundException();
         }
+
+        throw new AdministratorWasFoundException();
+
 
     }
 
